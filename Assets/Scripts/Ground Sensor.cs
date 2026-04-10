@@ -5,9 +5,12 @@ public class GroundSensor : MonoBehaviour
     public bool isGrouned;
     PlayerControler _playerScript;
 
+    public ParticleSystem _jumpParticles;
+
     void Awake()
     {
         _playerScript = GetComponentInParent<PlayerControler>();
+    
     }
 
 
@@ -16,6 +19,7 @@ public class GroundSensor : MonoBehaviour
         if (collision.gameObject.layer == 3)
         {
             isGrouned = true;
+            _jumpParticles.Play();
         }
 
     }

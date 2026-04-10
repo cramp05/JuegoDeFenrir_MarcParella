@@ -20,6 +20,8 @@ public class PlayerControler : MonoBehaviour
 
     private Animator animator;
 
+    public ParticleSystem _walkParticles;
+
     public void Awake()
     {
         rBody2D = GetComponent<Rigidbody2D>();
@@ -34,6 +36,8 @@ public class PlayerControler : MonoBehaviour
         jumpAction = InputSystem.actions["Jump"];
 
         animator = GetComponent<Animator>();
+
+   
     }
     void Start()
     {
@@ -49,24 +53,48 @@ public class PlayerControler : MonoBehaviour
 
         if (moveDirection.x > 0)
         {
-            renderer.flipX = false;
+            //renderer.flipX = false;
+            transform.rotation = Quaternion.Euler(0, 0, 0);
             animator.SetBool("IsRunning", true);
+
+
+            if(!_walkParticles.isPlaying && sensor.isGrouned)
+            {
+                _walkParticles.Play();
+            }
         }
 
         else if (moveDirection.x < 0)
         {
-            renderer.flipX = true;
+            //renderer.flipX = true;
+            transform.rotation = Quaternion.Euler(0, 180, 0);
             animator.SetBool("IsRunning", true);
+
+            if(!_walkParticles.isPlaying && sensor.isGrouned)
+            {
+                _walkParticles.Play();
+            }
+
         }
 
         else
         {
             animator.SetBool("IsRunning", false); //detectar botones pulsados siempre en la funcion update
+            if(_walkParticles.isPlaying)
+            {
+                _walkParticles.Stop();
+            }
         }
 
         if (jumpAction.WasPressedThisFrame() && sensor.isGrouned)
         {
             rBody2D.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+            
+        }
+
+        if(!sensor.isGrouned && _walkParticles.isPlaying)
+        {
+            _walkParticles.Stop();
         }
 
 
