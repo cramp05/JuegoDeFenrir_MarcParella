@@ -51,8 +51,8 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 16
-  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 512
+  spriteBorder: {x: 88, y: 72, z: 88, w: 104}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
   alphaIsTransparency: 1
@@ -116,10 +116,10 @@ TextureImporter:
       name: Terreno nieve_0
       rect:
         serializedVersion: 2
-        x: 88
-        y: 72
-        width: 336
-        height: 336
+        x: 0
+        y: 0
+        width: 511
+        height: 512
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -139,7 +139,7 @@ TextureImporter:
     physicsShape: []
     bones: []
     spriteID: f17e9e71583a07f4b95b7655c977dc1a
-    internalID: 0
+    internalID: 1470209885
     vertices: []
     indices: 
     edges: []
