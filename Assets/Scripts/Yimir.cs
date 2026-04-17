@@ -122,7 +122,7 @@ public class Yimir : MonoBehaviour
     rBody2D.linearVelocity = new Vector2(direction * movementSpeed, rBody2D.linearVelocity.y);  
   }
 
-  void Attack(Vector3 moveDirection)
+  void Attack()
   {
     Vector3 moveDirection = playerPosition.position - transform.position;
     direction = 0;

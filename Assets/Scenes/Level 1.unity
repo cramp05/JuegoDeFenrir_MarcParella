@@ -19670,7 +19670,7 @@ BoxCollider2D:
   m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 77a325eee65998a489570347156f88b5, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -25025,8 +25025,16 @@ PrefabInstance:
       value: ymir
       objectReference: {fileID: 0}
     - target: {fileID: 8189421651799646399, guid: 751d61f906a48684c9a52c7a958eeea2, type: 3}
+      propertyPath: attackRange
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 8189421651799646399, guid: 751d61f906a48684c9a52c7a958eeea2, type: 3}
       propertyPath: movementSpeed
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8189421651799646399, guid: 751d61f906a48684c9a52c7a958eeea2, type: 3}
+      propertyPath: detectionRange
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 8189421651799646399, guid: 751d61f906a48684c9a52c7a958eeea2, type: 3}
       propertyPath: patrolPoints.Array.size
