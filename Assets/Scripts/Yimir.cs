@@ -27,6 +27,11 @@ public class Yimir : MonoBehaviour
 
   public float detectionRange = 5; //detectar como de cerca esta el jugador
   public float attackRange = 7;
+  public GameObject bulletPrefab; //para asignar el objeto
+  public Transform bulletSpawn; //variable para controlar donde aparecen las balas
+  bool _canShoot = false;
+  float _attackDelay = 4;
+  float _shotTimer = 0;
 
 
   void Awake()
@@ -126,6 +131,7 @@ public class Yimir : MonoBehaviour
   {
     Vector3 moveDirection = playerPosition.position - transform.position;
     direction = 0;
+    ShootTime();
     if (moveDirection.x < 0)
     {
       transform.rotation = Quaternion.Euler(0, 180, 0);
@@ -134,8 +140,32 @@ public class Yimir : MonoBehaviour
     {
       transform.rotation = Quaternion.Euler(0, 0, 0);
     }
-
   }
+
+
+  void Shoot()
+  {
+    if (_canShoot == true)
+    {
+      Instantiate(bulletPrefab, bulletSpawn.position, bulletSpawn.rotation); //crea una instancia de la bala en la posicion del spawn y en la rotacion del spawn
+      _canShoot = false;
+      _shotTimer = 0;
+    } 
+  }
+  
+  void ShootTime()
+  {
+      _shotTimer += Time.deltaTime;
+
+    if (_shotTimer >= _attackDelay)
+    {
+      _animator.SetTrigger("Yimir atack");
+      _canShoot = true;
+      Shoot();
+    }
+  }
+
+
     void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("TopeParaEnemigos"))
