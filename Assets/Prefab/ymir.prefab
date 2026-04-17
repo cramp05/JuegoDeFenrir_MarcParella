@@ -179,6 +179,9 @@ MonoBehaviour:
   movementSpeed: 4
   direction: 1
   rBody2D: {fileID: 0}
+  patrolPoint:
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!95 &9045012476755711017
 Animator:
   serializedVersion: 7

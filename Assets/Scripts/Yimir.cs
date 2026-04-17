@@ -18,7 +18,13 @@ public class Yimir : MonoBehaviour
 
     private PlayerControler _playerScript;
     private int _yimirHealtyh = 3;
-    //private Slider _healthSlider;
+  //private Slider _healthSlider;
+
+  public Transform[] patrolPoints;
+  public int patrolIndex = 0;
+
+  private Transform playerPosition;
+
 
   void Awake()
   {
@@ -26,39 +32,91 @@ public class Yimir : MonoBehaviour
     rBody2D = GetComponent<Rigidbody2D>();
     //_audioSource = GetComponent<AudioSource>();
     _boxCollider = GetComponent<BoxCollider2D>();
-   // _gameManager = GameObject.Find("Game Manager").GetComponent<GameManger>();
+    // _gameManager = GameObject.Find("Game Manager").GetComponent<GameManger>();
 
     _playerScript = GameObject.Find("Fenrir").GetComponent<PlayerControler>();
     //_healthSlider = GetComponentInChildren<Slider>();
 
     _animator.SetBool("Yimir walk", true);
+
+    playerPosition = GameObject.FindGameObjectWithTag("Player").transform;
+    
         
     }
   void Start()
   {
     //_healthSlider.maxValue = _yimirHealtyh;
     //_healthSlider.value = _yimirHealtyh;
-
   }
 
     void Update()
     {
-     
-         
+      
     }
-     void FixedUpdate()
+  void FixedUpdate()
+  {
+    //rBody2D.linearVelocity = new Vector2(direction * movementSpeed, rBody2D.linearVelocity.y);  
+    //Patrol();
+    float distanceToPlayer = Vector3.Distance(playerPosition.position, transform.position);
+    if (distanceToPlayer > 5)
     {
-      rBody2D.linearVelocity = new Vector2(direction * movementSpeed, rBody2D.linearVelocity.y);  
+      Patrol();
     }
-
-    void OnCollisionEnter2D(Collision2D collision)
+    else
     {
-
-       if(collision.gameObject.CompareTag("Player")) 
-       {
+      FollowPlayer();
+    }
+  }
+  void OnCollisionEnter2D(Collision2D collision)
+  {
+      if(collision.gameObject.CompareTag("Player")) 
+      {
         // StartCoroutine(_playerScript.Mariodeath());//mirar
-       }
+      }
+  }
+
+  void Patrol()
+  {
+    float distanceToPoint = Vector3.Distance(transform.position, patrolPoints[patrolIndex].position);
+    if(distanceToPoint < 0.5f)
+    {
+      if (patrolIndex == 0)
+      {
+        patrolIndex = 1;
+      }
+      else
+      {
+        patrolIndex = 0;
+      }
     }
+
+    Vector3 moveDirection = patrolPoints[patrolIndex].position - transform.position;
+    if (moveDirection.x < 0)
+    {
+      direction = -1;
+    }
+    else if (moveDirection.x > 0)
+    {
+      direction = 1;
+    }
+
+    rBody2D.linearVelocity = new Vector2(direction * movementSpeed, rBody2D.linearVelocity.y);       
+  }
+
+  void FollowPlayer()
+  {
+    Vector3 moveDirection = playerPosition.position - transform.position;
+    if (moveDirection.x < 0)
+    {
+      direction = -1;
+    }
+    else if (moveDirection.x > 0)
+    {
+      direction = 1;
+    }
+
+    rBody2D.linearVelocity = new Vector2(direction * movementSpeed, rBody2D.linearVelocity.y);  
+  }
     void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("TopeParaEnemigos"))
@@ -89,7 +147,6 @@ public class Yimir : MonoBehaviour
 
   
   }
-
   public void YimirDeath()
   {
     _animator.SetBool("Yimir idle", true);
