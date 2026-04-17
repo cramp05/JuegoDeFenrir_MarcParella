@@ -25,6 +25,9 @@ public class Yimir : MonoBehaviour
 
   private Transform playerPosition;
 
+  public float detectionRange = 5; //detectar como de cerca esta el jugador
+  public float attackRange = 7;
+
 
   void Awake()
   {
@@ -56,29 +59,32 @@ public class Yimir : MonoBehaviour
   void FixedUpdate()
   {
     //rBody2D.linearVelocity = new Vector2(direction * movementSpeed, rBody2D.linearVelocity.y);  
-    //Patrol();
     float distanceToPlayer = Vector3.Distance(playerPosition.position, transform.position);
-    if (distanceToPlayer > 5)
+    if (distanceToPlayer > detectionRange)
     {
       Patrol();
     }
-    else
+    else if (distanceToPlayer < detectionRange && distanceToPlayer > attackRange)
     {
-      FollowPlayer();
+      //FollowPlayer();
+    }
+    else if (distanceToPlayer < attackRange)
+    {
+      Attack();
     }
   }
   void OnCollisionEnter2D(Collision2D collision)
   {
       if(collision.gameObject.CompareTag("Player")) 
       {
-        // StartCoroutine(_playerScript.Mariodeath());//mirar
+        // StartCoroutine(_playerScript.Mariodeath());
       }
   }
 
   void Patrol()
   {
     float distanceToPoint = Vector3.Distance(transform.position, patrolPoints[patrolIndex].position);
-    if(distanceToPoint < 0.5f)
+    if (distanceToPoint < 0.5f)
     {
       if (patrolIndex == 0)
       {
@@ -91,31 +97,44 @@ public class Yimir : MonoBehaviour
     }
 
     Vector3 moveDirection = patrolPoints[patrolIndex].position - transform.position;
-    if (moveDirection.x < 0)
-    {
-      direction = -1;
-    }
-    else if (moveDirection.x > 0)
-    {
-      direction = 1;
-    }
-
-    rBody2D.linearVelocity = new Vector2(direction * movementSpeed, rBody2D.linearVelocity.y);       
+    Movement(moveDirection);
   }
 
   void FollowPlayer()
   {
     Vector3 moveDirection = playerPosition.position - transform.position;
+    Movement(moveDirection);
+  }
+
+  void Movement(Vector3 moveDirection)
+  {
     if (moveDirection.x < 0)
     {
       direction = -1;
+      transform.rotation = Quaternion.Euler(0, 180, 0);
     }
     else if (moveDirection.x > 0)
     {
       direction = 1;
+      transform.rotation = Quaternion.Euler(0, 0, 0);
     }
 
     rBody2D.linearVelocity = new Vector2(direction * movementSpeed, rBody2D.linearVelocity.y);  
+  }
+
+  void Attack(Vector3 moveDirection)
+  {
+    Vector3 moveDirection = playerPosition.position - transform.position;
+    direction = 0;
+    if (moveDirection.x < 0)
+    {
+      transform.rotation = Quaternion.Euler(0, 180, 0);
+    }
+    else if (moveDirection.x > 0)
+    {
+      transform.rotation = Quaternion.Euler(0, 0, 0);
+    }
+
   }
     void OnTriggerEnter2D(Collider2D collision)
     {
