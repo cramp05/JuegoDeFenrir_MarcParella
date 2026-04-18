@@ -1,17 +1,24 @@
+using System.Collections;
 using UnityEngine;
+using UnityEngine.TextCore.Text;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
     public GameObject pauseCanvas;
-    public GameObject winCanvas;
+    //public GameObject winCanvas;
 
     //public int coins = 0; //para contar monedas
 
     // public int KilledEnemies = 0;
-    public int timePocionAzul;
 
+ 
     public GameObject pocionAzul;
-   // public Text pocionAzulText;
+    private Coroutine contadorActualPocionAzul;
+    public float tiempoRestantePocionAzul = 0f;
+    public float tiempoExtraPocionAzul = 10f;
+    public Text pocionAzulDuration;
+
 
     public bool _pause; //para saber si estamo o no en pausa
   //  public bool _winMenu = false;
@@ -21,7 +28,7 @@ public class GameManager : MonoBehaviour
     //public string gameOverScene;
 
    // public Button botonWinCanvas;
-   // public Button botonPause;
+    public Button botonPause;
 
 
     void Awake()
@@ -68,10 +75,30 @@ public class GameManager : MonoBehaviour
 
     public void TimePocionAzul()
     {
-        timePocionAzul++;
-        //pocionAzulText.text = timePocionAzul++;.ToString();
+        tiempoRestantePocionAzul += tiempoExtraPocionAzul;
+
+        if (contadorActualPocionAzul == null)
+        {
+            contadorActualPocionAzul = StartCoroutine(ContadorPocionAzul());
+        }
     }
 
+    public IEnumerator ContadorPocionAzul()
+    {
+        pocionAzul.SetActive(true);
+
+        while (tiempoRestantePocionAzul > 0)
+        {
+            tiempoRestantePocionAzul -= Time.unscaledDeltaTime;
+            pocionAzulDuration.text = Mathf.Ceil(tiempoRestantePocionAzul).ToString();
+            yield return null;
+        }
+
+        pocionAzulDuration.text = "0";
+        tiempoRestantePocionAzul = 0f;
+        pocionAzul.SetActive(false);
+        contadorActualPocionAzul = null;
+    }
     /*public void Addkill()
     {
         KilledEnemies++;
@@ -83,7 +110,7 @@ public class GameManager : MonoBehaviour
         if (_pause == false)
         {
             Time.timeScale = 0;
-            //botonPause.Select();
+            botonPause.Select();
             _pause = true;
         }
         else

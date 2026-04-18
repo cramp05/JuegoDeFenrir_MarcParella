@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class PocionAzul : MonoBehaviour
 {
-    //private GameManger _gameManager;
+    private GameManager _gameManager;
 
-    public AudioClip coin;
+    public AudioClip powerUp;
     //private AudioSource _audioSource;
 
     public SpriteRenderer renderSprite;
@@ -13,7 +13,7 @@ public class PocionAzul : MonoBehaviour
 
     void Awake()
     {
-       // _gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
+        _gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
        // _audioSource = GetComponent<AudioSource>();
         renderSprite = GetComponent<SpriteRenderer>();
         _boxCollider = GetComponent<BoxCollider2D>();

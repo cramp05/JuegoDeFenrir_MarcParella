@@ -1,6 +1,7 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using System.Collections;
+using static UnityEngine.Timeline.DirectorControlPlayable;
 
 public class PlayerControler : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class PlayerControler : MonoBehaviour
     public InputAction moveAction;
     public Vector2 moveDirection;
     private InputAction jumpAction;
+    private InputAction _pauseAction;
 
     public Rigidbody2D rBody2D;
     public float jumpForce = 10;
@@ -22,6 +24,10 @@ public class PlayerControler : MonoBehaviour
 
     public ParticleSystem _walkParticles;
 
+    private GameManager _gameManager;
+
+
+    bool _canPowerUPAzul = false;
     float _pocionAzulDuration = 10;
     float _pocionAzulTimer;
 
@@ -38,9 +44,13 @@ public class PlayerControler : MonoBehaviour
 
         jumpAction = InputSystem.actions["Jump"];
 
+        _pauseAction = InputSystem.actions["Pause"];
+
         animator = GetComponent<Animator>();
 
-   
+        _gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
+
+
     }
     void Start()
     {
@@ -53,6 +63,16 @@ public class PlayerControler : MonoBehaviour
     void Update()
     {
         moveDirection = moveAction.ReadValue<Vector2>();
+
+        if (_pauseAction.WasPressedThisFrame()) //para pausar la partida
+        {
+            _gameManager.Pause();
+        }
+
+        if (_gameManager._pause == true)
+        {
+            return;//para la funcion, todo lo que haya debajo lo para
+        }
 
         if (moveDirection.x > 0)
         {
@@ -118,5 +138,32 @@ public class PlayerControler : MonoBehaviour
        rBody2D.linearVelocity = new Vector2(moveDirection.x * movementSpeed, rBody2D.linearVelocity.y);
     }
 
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+
+       /* if (collision.gameObject.tag == "Win")
+        {
+            StartCoroutine(WinMario());
+        }*/
+
+        if (collision.gameObject.CompareTag("PocionAzul"))
+        {
+            _pocionAzulTimer = 0;
+            _canPowerUPAzul = true;
+            _gameManager.TimePocionAzul();
+            //PowerUpAzul();
+        }
+    }
+
+    /*void PowerUpAzul()
+    {
+        _pocionAzulTimer += Time.deltaTime;
+        _gameManager.ContadorPocionAzul();
+
+        if (_pocionAzulTimer >= _pocionAzulDuration)
+        {
+            _canPowerUPAzul = false;
+        }
+    }*/
 }
 
