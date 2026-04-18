@@ -22,6 +22,9 @@ public class PlayerControler : MonoBehaviour
 
     public ParticleSystem _walkParticles;
 
+    float _pocionAzulDuration = 10;
+    float _pocionAzulTimer;
+
     public void Awake()
     {
         rBody2D = GetComponent<Rigidbody2D>();
@@ -112,7 +115,7 @@ public class PlayerControler : MonoBehaviour
 
     void FixedUpdate()
     {
-        rBody2D.linearVelocity = new Vector2(moveDirection.x * movementSpeed, rBody2D.linearVelocity.y);
+       rBody2D.linearVelocity = new Vector2(moveDirection.x * movementSpeed, rBody2D.linearVelocity.y);
     }
 
 }

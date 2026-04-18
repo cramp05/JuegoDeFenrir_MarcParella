@@ -20,17 +20,17 @@ public class Bullet : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        /*if(collision.gameObject.CompareTag("Player") || collision.gameObject.layer == 3)
+        if(collision.gameObject.layer == 6 || collision.gameObject.layer == 6)
         {
             return;
         }
-        if(collision.gameObject.layer == 7)
+        if(collision.gameObject.CompareTag("Player"))
         {
-         //Destroy(collision.gameObject);
-            Enemigo _enemyScript = collision.gameObject.GetComponent<Enemigo>();
-            _enemyScript.TakeDamage(bulletDamage);
+            //Destroy(collision.gameObject);
+            //Enemigo _enemyScript = collision.gameObject.GetComponent<Enemigo>();
+           // _enemyScript.TakeDamage(bulletDamage);
         }
-        Destroy (gameObject);*/
+        Destroy (gameObject);
     }
 
     void Update()

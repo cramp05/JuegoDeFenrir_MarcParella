@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 7082193569427881089}
   - component: {fileID: 8189421651799646399}
   - component: {fileID: 9045012476755711017}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: ymir
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -179,9 +179,12 @@ MonoBehaviour:
   movementSpeed: 4
   direction: 1
   rBody2D: {fileID: 0}
-  patrolPoint:
-  - {fileID: 0}
-  - {fileID: 0}
+  patrolPoints: []
+  patrolIndex: 0
+  detectionRange: 5
+  attackRange: 7
+  bulletPrefab: {fileID: 0}
+  bulletSpawn: {fileID: 0}
 --- !u!95 &9045012476755711017
 Animator:
   serializedVersion: 7

@@ -14,7 +14,7 @@ public class Yimir : MonoBehaviour
 
     //public AudioClip deathSFX;
 
-   // private GameManger _gameManager;
+   //private GameManger _gameManager;
 
     private PlayerControler _playerScript;
     private int _yimirHealtyh = 3;
@@ -30,7 +30,7 @@ public class Yimir : MonoBehaviour
   public GameObject bulletPrefab; //para asignar el objeto
   public Transform bulletSpawn; //variable para controlar donde aparecen las balas
   bool _canShoot = false;
-  float _attackDelay = 4;
+  float _attackDelay = 3;
   float _shotTimer = 0;
 
 
