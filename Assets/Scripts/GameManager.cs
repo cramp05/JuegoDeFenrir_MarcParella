@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.TextCore.Text;
 using UnityEngine.UI;
+using UnityEngine.Video;
 
 public class GameManager : MonoBehaviour
 {
@@ -19,13 +20,18 @@ public class GameManager : MonoBehaviour
     public float tiempoExtraPocionAzul = 10f;
     public Text pocionAzulDuration;
 
+    public GameObject[] vida;
+    public int _fenrirHealtyh = 5;
+    private PlayerControler _playerScript;
+
+
 
     public bool _pause; //para saber si estamo o no en pausa
   //  public bool _winMenu = false;
     public bool _gui = true;
 
-    //public SceanLoader _sceneLoader;
-    //public string gameOverScene;
+    public SceneLoader _sceneLoader;
+    public string gameOverScene;
 
    // public Button botonWinCanvas;
     public Button botonPause;
@@ -33,16 +39,46 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
-
-        //_sceneLoader = GameObject.Find("Scean Loader").GetComponent<SceanLoader>();
+        _playerScript = GameObject.Find("Fenrir").GetComponent<PlayerControler>();
+        _sceneLoader = GameObject.Find("SceneLoader").GetComponent<SceneLoader>();
     }
 
-    /*public void GameOver()
+    public void TakeDamage(int damage)
     {
-        _sceneLoader.ChangeScean(gameOverScene);
+        _fenrirHealtyh -= damage; //resta uno a la variable vida
+
+        if (_fenrirHealtyh <= 0)
+        {
+            vida[0].SetActive(false);
+            _playerScript.InicioMuerteFenrir();
+        }
+
+        if (_fenrirHealtyh <= 4)
+        {
+            vida[4].SetActive(false);
+        }
+        if (_fenrirHealtyh <= 3)
+        {
+            vida[3].SetActive(false);
+        }
+        if (_fenrirHealtyh <= 2)
+        {
+            vida[2].SetActive(false);
+        }
+        if (_fenrirHealtyh <= 1)
+        {
+            vida[1].SetActive(false);
+        }
+
+
     }
 
-    public void WinMenu()
+    public void GameOver()
+    {
+        _sceneLoader.ChangeScean("Game Over");
+    }
+
+    /*public void WinMenu()
     {
         if (_winMenu == false)
         {
@@ -75,6 +111,7 @@ public class GameManager : MonoBehaviour
 
     public void TimePocionAzul()
     {
+        pocionAzul.SetActive(true);
         tiempoRestantePocionAzul += tiempoExtraPocionAzul;
 
         if (contadorActualPocionAzul == null)

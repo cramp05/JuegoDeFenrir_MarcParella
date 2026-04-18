@@ -22,6 +22,11 @@ public class PlayerControler : MonoBehaviour
 
     private Animator animator;
 
+    //private AudioSource _audioSource;
+    //public AudioClip deathSFXFenrir;
+    //public AudioClip jumpFenrir;
+    //public AudioClip win;
+
     public ParticleSystem _walkParticles;
 
     private GameManager _gameManager;
@@ -132,10 +137,35 @@ public class PlayerControler : MonoBehaviour
 
     }
 
-
     void FixedUpdate()
     {
        rBody2D.linearVelocity = new Vector2(moveDirection.x * movementSpeed, rBody2D.linearVelocity.y);
+    }
+
+
+
+    public void InicioMuerteFenrir()
+    {
+        StartCoroutine(Fenrirdeath());
+    }
+    
+    public IEnumerator Fenrirdeath()
+    {
+        _boxCollider.enabled = false; //desactiva el box collider
+
+        //_bgmManagerScript.StopBGM();
+
+        animator.SetBool("IsDeath", true);
+
+        //_audioSource.PlayOneShot(deathSFXMario);
+
+        movementSpeed = 0;
+
+        yield return new WaitForSeconds(2f);
+        Destroy(gameObject);
+
+        _gameManager.GameOver();
+
     }
 
     void OnTriggerEnter2D(Collider2D collision)
@@ -152,6 +182,10 @@ public class PlayerControler : MonoBehaviour
             _canPowerUPAzul = true;
             _gameManager.TimePocionAzul();
             //PowerUpAzul();
+        }
+        if (collision.gameObject.CompareTag("Trampa"))
+        {
+            
         }
     }
 

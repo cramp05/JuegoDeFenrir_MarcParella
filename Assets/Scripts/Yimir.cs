@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class Yimir : MonoBehaviour
@@ -14,7 +15,9 @@ public class Yimir : MonoBehaviour
 
     //public AudioClip deathSFX;
 
-   //private GameManger _gameManager;
+    //private GameManger _gameManager;
+
+    private GameObject _fenrir;
 
     private PlayerControler _playerScript;
     private int _yimirHealtyh = 3;
@@ -30,7 +33,7 @@ public class Yimir : MonoBehaviour
   public GameObject bulletPrefab; //para asignar el objeto
   public Transform bulletSpawn; //variable para controlar donde aparecen las balas
   bool _canShoot = false;
-  float _attackDelay = 3;
+  float _attackDelay = 2;
   float _shotTimer = 0;
 
 
@@ -43,9 +46,11 @@ public class Yimir : MonoBehaviour
     // _gameManager = GameObject.Find("Game Manager").GetComponent<GameManger>();
 
     _playerScript = GameObject.Find("Fenrir").GetComponent<PlayerControler>();
+    _fenrir = GameObject.Find("Fenrir");
     //_healthSlider = GetComponentInChildren<Slider>();
 
     _animator.SetBool("Yimir walk", true);
+    _animator.SetBool("Yimir idle", false);
 
     playerPosition = GameObject.FindGameObjectWithTag("Player").transform;
     
@@ -63,19 +68,24 @@ public class Yimir : MonoBehaviour
     }
   void FixedUpdate()
   {
-    //rBody2D.linearVelocity = new Vector2(direction * movementSpeed, rBody2D.linearVelocity.y);  
-    float distanceToPlayer = Vector3.Distance(playerPosition.position, transform.position);
-    if (distanceToPlayer > detectionRange)
+       //rBody2D.linearVelocity = new Vector2(direction * movementSpeed, rBody2D.linearVelocity.y);
+    if (_fenrir != null)//&& _fenrir.gameObject != null
     {
-      Patrol();
-    }
-    else if (distanceToPlayer < detectionRange && distanceToPlayer > attackRange)
-    {
-      //FollowPlayer();
-    }
-    else if (distanceToPlayer < attackRange)
-    {
-      Attack();
+       float distanceToPlayer = Vector3.Distance(playerPosition.position, transform.position);
+
+
+       if (distanceToPlayer > detectionRange)
+       {
+                Patrol();
+       }
+       else if (distanceToPlayer < detectionRange && distanceToPlayer > attackRange)
+       {
+                //FollowPlayer();
+       }
+       else if (distanceToPlayer < attackRange)
+       {
+                Attack();
+       }
     }
   }
   void OnCollisionEnter2D(Collision2D collision)
@@ -113,6 +123,8 @@ public class Yimir : MonoBehaviour
 
   void Movement(Vector3 moveDirection)
   {
+        _animator.SetBool("Yimir idle", false);
+        _animator.SetBool("Yimir walk", true);
     if (moveDirection.x < 0)
     {
       direction = -1;
@@ -129,9 +141,11 @@ public class Yimir : MonoBehaviour
 
   void Attack()
   {
-    Vector3 moveDirection = playerPosition.position - transform.position;
-    direction = 0;
-    ShootTime();
+        _animator.SetBool("Yimir idle", true);
+        _animator.SetBool("Yimir walk", false);
+        Vector3 moveDirection = playerPosition.position - transform.position;
+        direction = 0;
+
     if (moveDirection.x < 0)
     {
       transform.rotation = Quaternion.Euler(0, 180, 0);
@@ -140,30 +154,19 @@ public class Yimir : MonoBehaviour
     {
       transform.rotation = Quaternion.Euler(0, 0, 0);
     }
-  }
+     StartCoroutine(ShootTime());
+   }
 
-
-  void Shoot()
-  {
-    if (_canShoot == true)
+    public IEnumerator ShootTime()
     {
-      Instantiate(bulletPrefab, bulletSpawn.position, bulletSpawn.rotation); //crea una instancia de la bala en la posicion del spawn y en la rotacion del spawn
-      _canShoot = false;
-      _shotTimer = 0;
-    } 
-  }
-  
-  void ShootTime()
-  {
-      _shotTimer += Time.deltaTime;
-
-    if (_shotTimer >= _attackDelay)
-    {
-      _animator.SetTrigger("Yimir atack");
-      _canShoot = true;
-      Shoot();
+        _animator.SetTrigger("Yimir atack");
+        yield return new WaitForSeconds(_attackDelay);
     }
-  }
+
+    public void Shoot()
+    {
+        Instantiate(bulletPrefab, bulletSpawn.position, bulletSpawn.rotation);
+    }
 
 
     void OnTriggerEnter2D(Collider2D collision)
@@ -184,7 +187,7 @@ public class Yimir : MonoBehaviour
         }
     }
 
-  public void TakeDamage(int damage) //funcion para quitar vida al goomba
+  /*public void TakeDamage(int damage) //funcion para quitar vida al goomba
   {
     _yimirHealtyh -= damage; //resta uno a la variable vida
     //_healthSlider.value = _yimirHealtyh;
@@ -196,18 +199,18 @@ public class Yimir : MonoBehaviour
 
   
   }
-  public void YimirDeath()
-  {
-    _animator.SetBool("Yimir idle", true);
+    public void YimirDeath()
+    {
+        _animator.SetBool("Yimir idle", true);
 
-    //_gameManager.Addkill();
+        //_gameManager.Addkill();
 
-    //_audioSource.PlayOneShot(deathSFX);
+        //_audioSource.PlayOneShot(deathSFX);
 
-    movementSpeed = 0;
+         movementSpeed = 0;
 
-    _boxCollider.enabled = false; //desactiva el box collider
+        _boxCollider.enabled = false; //desactiva el box collider
 
-    Destroy(gameObject, 1.2f);
-  }
+        Destroy(gameObject, 1.2f);
+  }*/
 }

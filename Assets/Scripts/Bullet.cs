@@ -24,13 +24,16 @@ public class Bullet : MonoBehaviour
         {
             return;
         }
-        if(collision.gameObject.CompareTag("Player"))
+    }
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
         {
-            //Destroy(collision.gameObject);
-            //Enemigo _enemyScript = collision.gameObject.GetComponent<Enemigo>();
-           // _enemyScript.TakeDamage(bulletDamage);
+            GameManager _gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
+            _gameManager.TakeDamage(bulletDamage);
+            Destroy(gameObject);
         }
-        Destroy (gameObject);
+
     }
 
     void Update()

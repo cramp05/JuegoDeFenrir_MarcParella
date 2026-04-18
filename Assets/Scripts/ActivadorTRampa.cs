@@ -1,8 +1,12 @@
 using UnityEngine;
 
-public class Trampa : MonoBehaviour
+public class ActivadorTRanmpa : MonoBehaviour
 {
-    public int trampaDamage = 3;
+
+    public Rigidbody2D rBody2D;
+
+
+
     void Start()
     {
         
@@ -11,16 +15,17 @@ public class Trampa : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
+
     }
+
     void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            GameManager _gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
-            _gameManager.TakeDamage(trampaDamage);
-            Destroy(gameObject);
+            rBody2D.bodyType = RigidbodyType2D.Dynamic;
         }
-
     }
+
+
 }
