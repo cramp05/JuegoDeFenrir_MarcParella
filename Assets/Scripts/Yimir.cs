@@ -187,7 +187,7 @@ public class Yimir : MonoBehaviour
         }
     }
 
-  /*public void TakeDamage(int damage) //funcion para quitar vida al goomba
+  public void TakeDamage(int damage) //funcion para quitar vida al goomba
   {
     _yimirHealtyh -= damage; //resta uno a la variable vida
     //_healthSlider.value = _yimirHealtyh;
@@ -212,5 +212,5 @@ public class Yimir : MonoBehaviour
         _boxCollider.enabled = false; //desactiva el box collider
 
         Destroy(gameObject, 1.2f);
-  }*/
+  }
 }

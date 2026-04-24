@@ -7,16 +7,20 @@ public class PlayerControler : MonoBehaviour
 {
     public float movementSpeed = 5;
     public int direction = 1;
+    public int dash = 2;
+    private bool _isDash = false;
     public InputAction moveAction;
     public Vector2 moveDirection;
     private InputAction jumpAction;
     private InputAction _pauseAction;
+    private InputAction _attackAction;
 
     public Rigidbody2D rBody2D;
     public float jumpForce = 10;
 
     private SpriteRenderer renderer;
     private BoxCollider2D _boxCollider;
+    public GameObject attackHitBox;
 
     private GroundSensor sensor;
 
@@ -50,6 +54,7 @@ public class PlayerControler : MonoBehaviour
         jumpAction = InputSystem.actions["Jump"];
 
         _pauseAction = InputSystem.actions["Pause"];
+        _attackAction = InputSystem.actions["Attack"];
 
         animator = GetComponent<Animator>();
 
@@ -67,6 +72,15 @@ public class PlayerControler : MonoBehaviour
 
     void Update()
     {
+        if(_attackAction.WasPerformedThisFrame() && _isDash == false)
+        {
+            Debug.Log("atacando");
+            //Attack();
+            animator.SetTrigger("Atack");
+            rBody2D.AddForce(transform.right * dash, ForceMode2D.Impulse);
+            return;
+        }
+
         moveDirection = moveAction.ReadValue<Vector2>();
 
         if (_pauseAction.WasPressedThisFrame()) //para pausar la partida
@@ -78,6 +92,8 @@ public class PlayerControler : MonoBehaviour
         {
             return;//para la funcion, todo lo que haya debajo lo para
         }
+
+        
 
         if (moveDirection.x > 0)
         {
@@ -126,7 +142,6 @@ public class PlayerControler : MonoBehaviour
         }
 
 
-
         animator.SetBool("IsJumping", !sensor.isGrouned);
     }
     public void Bounce()
@@ -139,7 +154,10 @@ public class PlayerControler : MonoBehaviour
 
     void FixedUpdate()
     {
-       rBody2D.linearVelocity = new Vector2(moveDirection.x * movementSpeed, rBody2D.linearVelocity.y);
+        if(_isDash == false)
+        {
+            rBody2D.linearVelocity = new Vector2(moveDirection.x * movementSpeed, rBody2D.linearVelocity.y);
+        }
     }
 
 
@@ -168,6 +186,22 @@ public class PlayerControler : MonoBehaviour
 
     }
 
+    public void VelocidadPocionAzul()
+    {
+        if (_canPowerUPAzul == true)
+        {
+            movementSpeed = 7;
+        }
+    }
+    public void VelocidadPocionAzulOFF()
+    {
+        if (_canPowerUPAzul == true)
+        {
+            _canPowerUPAzul = false;
+            movementSpeed = 5;
+        }
+    }
+
     void OnTriggerEnter2D(Collider2D collision)
     {
 
@@ -186,6 +220,21 @@ public class PlayerControler : MonoBehaviour
         if (collision.gameObject.CompareTag("Trampa"))
         {
             
+        }
+    }
+
+    void Attack()
+    {
+        if(attackHitBox.activeInHierarchy)
+        {
+            attackHitBox.SetActive(false);
+            _isDash = false;
+            
+        }
+        else
+        {
+            attackHitBox.SetActive(true);
+            _isDash = true;
         }
     }
 

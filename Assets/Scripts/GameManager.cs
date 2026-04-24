@@ -129,12 +129,14 @@ public class GameManager : MonoBehaviour
             tiempoRestantePocionAzul -= Time.unscaledDeltaTime;
             pocionAzulDuration.text = Mathf.Ceil(tiempoRestantePocionAzul).ToString();
             yield return null;
+            _playerScript.VelocidadPocionAzul();
         }
 
         pocionAzulDuration.text = "0";
         tiempoRestantePocionAzul = 0f;
         pocionAzul.SetActive(false);
         contadorActualPocionAzul = null;
+        _playerScript.VelocidadPocionAzulOFF();
     }
     /*public void Addkill()
     {
