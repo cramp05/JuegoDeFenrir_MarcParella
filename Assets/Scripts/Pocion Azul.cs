@@ -11,12 +11,15 @@ public class PocionAzul : MonoBehaviour
 
     private BoxCollider2D _boxCollider;
 
+    public AudioClip pocionSound;
+    private AudioSource _audioSource;
+
     void Awake()
     {
         _gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
-       // _audioSource = GetComponent<AudioSource>();
         renderSprite = GetComponent<SpriteRenderer>();
         _boxCollider = GetComponent<BoxCollider2D>();
+        _audioSource = GetComponent<AudioSource>();
     }
     void Start()
     {
@@ -34,7 +37,7 @@ public class PocionAzul : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))  //destruccion de monedas y activar el contador de moneda
         {
 
-            //_audioSource.PlayOneShot(coin);
+            _audioSource.PlayOneShot(pocionSound);
             _boxCollider.enabled = false; //desactiva el box collider
             renderSprite.enabled = false;
            // _gameManager.TimePocionAzul();

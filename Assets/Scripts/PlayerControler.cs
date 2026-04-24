@@ -74,7 +74,6 @@ public class PlayerControler : MonoBehaviour
     {
         if(_attackAction.WasPerformedThisFrame() && _isDash == false)
         {
-            Debug.Log("atacando");
             //Attack();
             animator.SetTrigger("Atack");
             rBody2D.AddForce(transform.right * dash, ForceMode2D.Impulse);
