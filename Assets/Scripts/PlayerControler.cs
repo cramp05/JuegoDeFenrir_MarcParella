@@ -26,9 +26,13 @@ public class PlayerControler : MonoBehaviour
 
     private Animator animator;
 
-    //private AudioSource _audioSource;
-    //public AudioClip deathSFXFenrir;
-    //public AudioClip jumpFenrir;
+    public AudioSource audioSource;
+    public AudioSource audioSourceWalk;
+
+    public AudioClip deathSFXFenrir;
+    public AudioClip jumpFenrir;
+    public AudioClip walk;
+    public AudioClip jump;
     //public AudioClip win;
 
     public ParticleSystem _walkParticles;
