@@ -10,10 +10,13 @@ public class Yimir : MonoBehaviour
 
     private SpriteRenderer renderer;
 
-   // private AudioSource _audioSource;
+    private AudioSource _audioSource;
+    public AudioSource audioSourceWalk;
     private BoxCollider2D _boxCollider;
 
-    //public AudioClip deathSFX;
+    public AudioClip deathSFX;
+    public AudioClip attackYimirSFX;
+    public AudioClip yimirWalk;
 
     //private GameManger _gameManager;
 
@@ -41,7 +44,7 @@ public class Yimir : MonoBehaviour
   {
     _animator = GetComponent<Animator>();
     rBody2D = GetComponent<Rigidbody2D>();
-    //_audioSource = GetComponent<AudioSource>();
+    _audioSource = GetComponent<AudioSource>();
     _boxCollider = GetComponent<BoxCollider2D>();
     // _gameManager = GameObject.Find("Game Manager").GetComponent<GameManger>();
 
@@ -53,8 +56,9 @@ public class Yimir : MonoBehaviour
     _animator.SetBool("Yimir idle", false);
 
     playerPosition = GameObject.FindGameObjectWithTag("Player").transform;
-    
-        
+
+
+
     }
   void Start()
   {
@@ -136,10 +140,31 @@ public class Yimir : MonoBehaviour
       transform.rotation = Quaternion.Euler(0, 0, 0);
     }
 
-    rBody2D.linearVelocity = new Vector2(direction * movementSpeed, rBody2D.linearVelocity.y);  
+    rBody2D.linearVelocity = new Vector2(direction * movementSpeed, rBody2D.linearVelocity.y);
+    //WalkSFX();
   }
+    public void WalkSFX()
+    {
+        /*if (_animator.GetBool("Yimir walk"))
+        {
+            if (!audioSourceWalk.isPlaying)
+            {
+                audioSourceWalk.Play();
+            }
+        }
+        else
+        {
+            if (audioSourceWalk.isPlaying)
+            {
+                audioSourceWalk.Stop();
+            }
+        }*/
+        Debug.Log("si");
+        audioSourceWalk.PlayOneShot(yimirWalk);
+        //yield return null;
+    }
 
-  void Attack()
+    void Attack()
   {
         _animator.SetBool("Yimir idle", true);
         _animator.SetBool("Yimir walk", false);
@@ -166,6 +191,7 @@ public class Yimir : MonoBehaviour
     public void Shoot()
     {
         Instantiate(bulletPrefab, bulletSpawn.position, bulletSpawn.rotation);
+        _audioSource.PlayOneShot(attackYimirSFX);
     }
 
 
@@ -205,7 +231,7 @@ public class Yimir : MonoBehaviour
 
         //_gameManager.Addkill();
 
-        //_audioSource.PlayOneShot(deathSFX);
+        _audioSource.PlayOneShot(deathSFX);
 
          movementSpeed = 0;
 

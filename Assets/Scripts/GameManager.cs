@@ -46,6 +46,7 @@ public class GameManager : MonoBehaviour
     public void TakeDamage(int damage)
     {
         _fenrirHealtyh -= damage; //resta uno a la variable vida
+        _playerScript.RecivirDaño();
 
         if (_fenrirHealtyh <= 0)
         {

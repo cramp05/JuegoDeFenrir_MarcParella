@@ -21,6 +21,7 @@ public class PlayerControler : MonoBehaviour
     private SpriteRenderer renderer;
     private BoxCollider2D _boxCollider;
     public GameObject attackHitBox;
+    private BGMManager _bgmManagerScript;
 
     private GroundSensor sensor;
 
@@ -30,9 +31,10 @@ public class PlayerControler : MonoBehaviour
     public AudioSource audioSourceWalk;
 
     public AudioClip deathSFXFenrir;
-    public AudioClip jumpFenrir;
-    public AudioClip walk;
-    public AudioClip jump;
+    public AudioClip hitFenrirSFX;
+    public AudioClip walkSFX;
+    public AudioClip jumpSFX;
+    public AudioClip attackSFX;
     //public AudioClip win;
 
     public ParticleSystem _walkParticles;
@@ -63,6 +65,8 @@ public class PlayerControler : MonoBehaviour
         animator = GetComponent<Animator>();
 
         _gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
+        _bgmManagerScript = GameObject.Find("BGM Manager").GetComponent<BGMManager>();
+
 
 
     }
@@ -81,6 +85,7 @@ public class PlayerControler : MonoBehaviour
             //Attack();
             animator.SetTrigger("Atack");
             rBody2D.AddForce(transform.right * dash, ForceMode2D.Impulse);
+            audioSource.PlayOneShot(attackSFX);
             return;
         }
 
@@ -142,6 +147,7 @@ public class PlayerControler : MonoBehaviour
         if(!sensor.isGrouned && _walkParticles.isPlaying)
         {
             _walkParticles.Stop();
+            audioSource.PlayOneShot(jumpSFX);
         }
 
 
@@ -162,6 +168,10 @@ public class PlayerControler : MonoBehaviour
             rBody2D.linearVelocity = new Vector2(moveDirection.x * movementSpeed, rBody2D.linearVelocity.y);
         }
     }
+    public void RecivirDaño()
+    {
+        audioSource.PlayOneShot(hitFenrirSFX);
+    }
 
 
 
@@ -174,11 +184,11 @@ public class PlayerControler : MonoBehaviour
     {
         _boxCollider.enabled = false; //desactiva el box collider
 
-        //_bgmManagerScript.StopBGM();
+        _bgmManagerScript.StopBGM();
 
         animator.SetBool("IsDeath", true);
 
-        //_audioSource.PlayOneShot(deathSFXMario);
+        audioSource.PlayOneShot(deathSFXFenrir);
 
         movementSpeed = 0;
 
