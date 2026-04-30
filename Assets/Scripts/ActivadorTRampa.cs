@@ -6,12 +6,14 @@ public class ActivadorTRanmpa : MonoBehaviour
     public Rigidbody2D rBody2D;
 
     public AudioClip trampa;
-    private AudioSource _audioSource;
+    //private AudioSource _audioSource;
+    public AudioSource audioSource;
+
 
 
     void Awake()
     {
-        _audioSource = GetComponent<AudioSource>();
+        //_audioSource = GetComponent<AudioSource>();
     }
 
 
@@ -32,8 +34,14 @@ public class ActivadorTRanmpa : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            _audioSource.PlayOneShot(trampa);
+            
             rBody2D.bodyType = RigidbodyType2D.Dynamic;
+            
+            if (rBody2D.bodyType == RigidbodyType2D.Dynamic)
+            {
+                audioSource.PlayOneShot(trampa);
+                Destroy(gameObject, 1.5f);
+            }
         }
     }
 

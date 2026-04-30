@@ -6,6 +6,9 @@ public class GroundSensor : MonoBehaviour
     PlayerControler _playerScript;
 
     public ParticleSystem _jumpParticles;
+    public AudioSource audioSourceJump;
+    public AudioClip jumpSFX;
+    public AudioClip aterrizaSFX;
 
     void Awake()
     {
@@ -20,6 +23,7 @@ public class GroundSensor : MonoBehaviour
         {
             isGrouned = true;
             _jumpParticles.Play();
+            audioSourceJump.PlayOneShot(aterrizaSFX);
         }
 
     }
@@ -28,6 +32,8 @@ public class GroundSensor : MonoBehaviour
         if (collision.gameObject.layer == 3)
         {
             isGrouned = false;
+            audioSourceJump.PlayOneShot(jumpSFX);
+
         }
     }
 }

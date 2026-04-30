@@ -10,7 +10,7 @@ public class Yimir : MonoBehaviour
 
     private SpriteRenderer renderer;
 
-    private AudioSource _audioSource;
+    public AudioSource audioSource;
     public AudioSource audioSourceWalk;
     private BoxCollider2D _boxCollider;
 
@@ -44,7 +44,6 @@ public class Yimir : MonoBehaviour
   {
     _animator = GetComponent<Animator>();
     rBody2D = GetComponent<Rigidbody2D>();
-    _audioSource = GetComponent<AudioSource>();
     _boxCollider = GetComponent<BoxCollider2D>();
     // _gameManager = GameObject.Find("Game Manager").GetComponent<GameManger>();
 
@@ -159,7 +158,6 @@ public class Yimir : MonoBehaviour
                 audioSourceWalk.Stop();
             }
         }*/
-        Debug.Log("si");
         audioSourceWalk.PlayOneShot(yimirWalk);
         //yield return null;
     }
@@ -191,7 +189,7 @@ public class Yimir : MonoBehaviour
     public void Shoot()
     {
         Instantiate(bulletPrefab, bulletSpawn.position, bulletSpawn.rotation);
-        _audioSource.PlayOneShot(attackYimirSFX);
+        audioSource.PlayOneShot(attackYimirSFX);
     }
 
 
@@ -231,7 +229,7 @@ public class Yimir : MonoBehaviour
 
         //_gameManager.Addkill();
 
-        _audioSource.PlayOneShot(deathSFX);
+        audioSource.PlayOneShot(deathSFX);
 
          movementSpeed = 0;
 
