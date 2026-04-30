@@ -29,13 +29,11 @@ public class PlayerControler : MonoBehaviour
 
     public AudioSource audioSource;
     public AudioSource audioSourceWalk;
-    public AudioSource audioSourceAgua;
 
     public AudioClip deathSFXFenrir;
     public AudioClip hitFenrirSFX;
     public AudioClip walkSFX;
     public AudioClip attackSFX;
-    public AudioClip aguaSFX;
     //public AudioClip win;
 
     public ParticleSystem _walkParticles;
@@ -256,14 +254,6 @@ public class PlayerControler : MonoBehaviour
         audioSourceWalk.PlayOneShot(walkSFX);
     }
 
-    private void OnTriggerEnter (Collider collision)
-    {
-        if (collision.gameObject.CompareTag("Agua Entrada"))
-        {
-            audioSourceAgua.PlayOneShot(aguaSFX);
-        }
-
-    }
 
     /*void PowerUpAzul()
     {
