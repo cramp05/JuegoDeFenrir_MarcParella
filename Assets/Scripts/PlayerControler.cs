@@ -66,6 +66,8 @@ public class PlayerControler : MonoBehaviour
         _gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
         _bgmManagerScript = GameObject.Find("BGM Manager").GetComponent<BGMManager>();
 
+        Time.timeScale = 1;
+
 
 
     }
@@ -166,7 +168,7 @@ public class PlayerControler : MonoBehaviour
             rBody2D.linearVelocity = new Vector2(moveDirection.x * movementSpeed, rBody2D.linearVelocity.y);
         }
     }
-    public void RecivirDaño()
+    public void RecivirDano()
     {
         audioSource.PlayOneShot(hitFenrirSFX);
     }
