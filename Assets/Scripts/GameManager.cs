@@ -7,7 +7,7 @@ using UnityEngine.Video;
 public class GameManager : MonoBehaviour
 {
     public GameObject pauseCanvas;
-    //public GameObject winCanvas;
+    public GameObject winCanvas;
 
     //public int coins = 0; //para contar monedas
 
@@ -27,13 +27,13 @@ public class GameManager : MonoBehaviour
 
 
     public bool _pause; //para saber si estamo o no en pausa
-  //  public bool _winMenu = false;
+    public bool _winMenu = false;
     public bool _gui = true;
 
     public SceneLoader _sceneLoader;
     public string gameOverScene;
 
-   // public Button botonWinCanvas;
+    public Button botonWinCanvas;
     public Button botonPause;
 
 
@@ -46,7 +46,7 @@ public class GameManager : MonoBehaviour
     public void TakeDamage(int damage)
     {
         _fenrirHealtyh -= damage; //resta uno a la variable vida
-        _playerScript.RecivirDaño();
+        _playerScript.RecivirDaÃ±o();
 
         if (_fenrirHealtyh <= 0)
         {
@@ -79,7 +79,7 @@ public class GameManager : MonoBehaviour
         _sceneLoader.ChangeScean("Game Over");
     }
 
-    /*public void WinMenu()
+    public void WinMenu()
     {
         if (_winMenu == false)
         {
@@ -97,7 +97,7 @@ public class GameManager : MonoBehaviour
 
         }
         winCanvas.SetActive(_winMenu);
-    }*/
+    }
 
     void Start()
     {

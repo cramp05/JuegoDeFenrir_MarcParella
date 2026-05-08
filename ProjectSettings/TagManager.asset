@@ -9,6 +9,7 @@ TagManager:
   - Trampa
   - Activar Trampa
   - Agua Entrada
+  - Win
   layers:
   - Default
   - TransparentFX

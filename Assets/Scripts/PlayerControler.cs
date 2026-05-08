@@ -34,7 +34,7 @@ public class PlayerControler : MonoBehaviour
     public AudioClip hitFenrirSFX;
     public AudioClip walkSFX;
     public AudioClip attackSFX;
-    //public AudioClip win;
+    public AudioClip win;
 
     public ParticleSystem _walkParticles;
 
@@ -166,7 +166,7 @@ public class PlayerControler : MonoBehaviour
             rBody2D.linearVelocity = new Vector2(moveDirection.x * movementSpeed, rBody2D.linearVelocity.y);
         }
     }
-    public void RecivirDaño()
+    public void RecivirDaÃ±o()
     {
         audioSource.PlayOneShot(hitFenrirSFX);
     }
@@ -232,6 +232,20 @@ public class PlayerControler : MonoBehaviour
         {
             
         }
+        if(collision.gameObject.tag == "Win")
+        {
+           StartCoroutine(Win());
+        } 
+    }
+
+    public IEnumerator Win()
+    {
+         movementSpeed = 0;
+         _bgmManagerScript.Win();
+         audioSource.PlayOneShot(win);
+         yield return new WaitForSeconds(2f);
+         _gameManager.WinMenu();
+
     }
 
     void Attack()
@@ -253,6 +267,8 @@ public class PlayerControler : MonoBehaviour
     {
         audioSourceWalk.PlayOneShot(walkSFX);
     }
+
+    
 
 
     /*void PowerUpAzul()
